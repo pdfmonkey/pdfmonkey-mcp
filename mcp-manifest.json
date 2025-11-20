@@ -1,0 +1,200 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/manifest/v1.0.0",
+  "name": "pdfmonkey-mcp-server",
+  "version": "1.0.0",
+  "description": "Generate PDFs from templates using PDFMonkey API - manage templates, documents, and snippets",
+  "author": "PDFMonkey MCP Team",
+  "homepage": "https://github.com/your-org/pdfmonkey-mcp-server",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/pdfmonkey-mcp-server.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "pdf",
+    "generation",
+    "documents",
+    "templates",
+    "pdfmonkey",
+    "api",
+    "mcp",
+    "claude"
+  ],
+  "capabilities": {
+    "tools": true,
+    "resources": false,
+    "prompts": false
+  },
+  "tools": [
+    {
+      "name": "list_workspaces",
+      "description": "List all PDFMonkey workspaces accessible with the current API key",
+      "category": "workspace"
+    },
+    {
+      "name": "list_templates",
+      "description": "List all PDF templates available in the workspace",
+      "category": "templates"
+    },
+    {
+      "name": "get_template",
+      "description": "Get detailed information about a specific template including HTML, CSS, and sample data",
+      "category": "templates",
+      "parameters": [
+        {
+          "name": "template_id",
+          "type": "string",
+          "required": true,
+          "description": "The ID of the template to retrieve"
+        }
+      ]
+    },
+    {
+      "name": "generate_document",
+      "description": "Generate a PDF document from a template with provided data. Uses async generation with automatic polling until completion.",
+      "category": "documents",
+      "parameters": [
+        {
+          "name": "template_id",
+          "type": "string",
+          "required": true,
+          "description": "The ID of the template to use for generation"
+        },
+        {
+          "name": "payload",
+          "type": "object",
+          "required": true,
+          "description": "The data to merge into the template (must match template structure)"
+        },
+        {
+          "name": "filename",
+          "type": "string",
+          "required": false,
+          "description": "Optional filename for the generated PDF (e.g., 'invoice-001.pdf')"
+        },
+        {
+          "name": "ttl",
+          "type": "string",
+          "required": false,
+          "description": "Optional time-to-live for automatic deletion (e.g., '7d', '2h', '30m')"
+        },
+        {
+          "name": "meta",
+          "type": "object",
+          "required": false,
+          "description": "Optional additional metadata to store with the document"
+        }
+      ]
+    },
+    {
+      "name": "get_document_status",
+      "description": "Check the generation status of a document and get its download URL if ready",
+      "category": "documents",
+      "parameters": [
+        {
+          "name": "document_id",
+          "type": "string",
+          "required": true,
+          "description": "The ID of the document to check"
+        }
+      ]
+    },
+    {
+      "name": "list_documents",
+      "description": "List documents with optional filtering by status, template, or update time",
+      "category": "documents",
+      "parameters": [
+        {
+          "name": "page",
+          "type": "number",
+          "required": false,
+          "description": "Page number for pagination (default: 1)"
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "required": false,
+          "enum": ["success", "failure", "draft"],
+          "description": "Filter by document status"
+        },
+        {
+          "name": "template_id",
+          "type": "string",
+          "required": false,
+          "description": "Filter by template ID"
+        },
+        {
+          "name": "updated_since",
+          "type": "string",
+          "required": false,
+          "description": "Filter by update timestamp (ISO 8601 format)"
+        }
+      ]
+    },
+    {
+      "name": "delete_document",
+      "description": "Permanently delete a document and its generated PDF",
+      "category": "documents",
+      "parameters": [
+        {
+          "name": "document_id",
+          "type": "string",
+          "required": true,
+          "description": "The ID of the document to delete"
+        }
+      ]
+    },
+    {
+      "name": "list_snippets",
+      "description": "List all reusable Liquid code snippets in the workspace",
+      "category": "snippets"
+    },
+    {
+      "name": "get_snippet",
+      "description": "Get the Liquid code of a specific snippet",
+      "category": "snippets",
+      "parameters": [
+        {
+          "name": "snippet_id",
+          "type": "string",
+          "required": true,
+          "description": "The ID of the snippet to retrieve"
+        }
+      ]
+    }
+  ],
+  "environment": {
+    "PDFMONKEY_API_KEY": {
+      "description": "Your PDFMonkey API key from dashboard.pdfmonkey.io",
+      "required": true,
+      "secret": true,
+      "example": "pk_live_..."
+    }
+  },
+  "runtime": {
+    "type": "docker",
+    "image": "pdfmonkey-mcp-server",
+    "transport": "stdio",
+    "platform": ["linux/amd64", "linux/arm64"]
+  },
+  "resources": {
+    "limits": {
+      "cpu": "0.5",
+      "memory": "512M"
+    }
+  },
+  "documentation": {
+    "readme": "README.md",
+    "quickstart": "QUICKSTART.md",
+    "docker": "DOCKER-MCP-TOOLKIT.md"
+  },
+  "support": {
+    "issues": "https://github.com/your-org/pdfmonkey-mcp-server/issues",
+    "email": "support@example.com"
+  },
+  "links": {
+    "pdfmonkey": "https://pdfmonkey.io",
+    "api_docs": "https://docs.pdfmonkey.io",
+    "dashboard": "https://dashboard.pdfmonkey.io"
+  }
+}

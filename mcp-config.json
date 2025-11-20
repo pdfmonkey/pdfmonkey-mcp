@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "pdfmonkey": {
+      "type": "docker",
+      "image": "pdfmonkey-mcp-server:latest",
+      "transport": "stdio",
+      "env": {
+        "PDFMONKEY_API_KEY": "${PDFMONKEY_API_KEY}"
+      },
+      "capabilities": ["tools"],
+      "metadata": {
+        "name": "PDFMonkey MCP Server",
+        "version": "1.0.0",
+        "description": "Generate PDFs from templates using PDFMonkey API",
+        "author": "PDFMonkey MCP Team",
+        "homepage": "https://github.com/your-org/pdfmonkey-mcp-server",
+        "license": "MIT"
+      }
+    }
+  }
+}

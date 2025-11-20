@@ -1,0 +1,34 @@
+# Source files
+src/
+tsconfig.json
+
+# Documentation for development
+CHANGELOG.md
+example-config.json
+pdfmonkeyRefGuide.md
+
+# Git and IDE
+.git/
+.github/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Tests (if added later)
+test/
+tests/
+*.test.ts
+*.spec.ts
+
+# CI/CD
+.travis.yml
+.gitlab-ci.yml
+
+# Environment
+.env
+.env.*
+
+# Misc
+.DS_Store
+Thumbs.db

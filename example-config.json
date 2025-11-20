@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "pdfmonkey": {
+      "command": "pdfmonkey-mcp-server",
+      "env": {
+        "PDFMONKEY_API_KEY": "your-api-key-here"
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  pdfmonkey-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pdfmonkey-mcp-server:latest
+    container_name: pdfmonkey-mcp-server
+    environment:
+      - PDFMONKEY_API_KEY=${PDFMONKEY_API_KEY}
+    restart: unless-stopped
+    # MCP uses stdio - no ports to expose
+    stdin_open: true
+    tty: true
+    # Optional: Add resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M

@@ -1,0 +1,50 @@
+# Node modules (will be installed in container)
+node_modules/
+
+# Git
+.git/
+.gitignore
+
+# Documentation for development
+CONTRIBUTING.md
+PUBLISH.md
+pdfmonkeyRefGuide.md
+CHANGELOG.md
+example-config.json
+QUICKSTART.md
+DOCKER.md
+DOCKER-MCP-TOOLKIT.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment files
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts (will be rebuilt in container)
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Docker
+docker-compose.yml
+run-docker.sh
+
+# Tests
+test/
+tests/
+*.test.ts
+*.spec.ts
+
+# CI/CD
+.github/
