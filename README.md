@@ -75,8 +75,8 @@ npm install -g pdfmonkey-mcp-server
 ### Option 3: From Source
 
 ```bash
-git clone https://github.com/your-org/pdfmonkey-mcp-server
-cd pdfmonkey-mcp-server
+git clone https://github.com/pdfmonkey/pdfmonkey-mcp
+cd pdfmonkey-mcp
 npm install
 npm run build
 ```
@@ -100,7 +100,7 @@ npm run build
 1. Sign up at [dashboard.pdfmonkey.io/register](https://dashboard.pdfmonkey.io/register)
 2. Get your API key from the dashboard
 
-## Available Tools (12 total)
+## Available Tools (11 total)
 
 ### Workspace Operations
 
