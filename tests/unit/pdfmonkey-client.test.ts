@@ -336,13 +336,17 @@ describe('PDFMonkeyClient', () => {
   });
 
   describe('deleteDocument', () => {
-    it('should delete document successfully', async () => {
+    it('should delete document successfully on 204 No Content (empty body)', async () => {
+      // The real API returns 204 with no body; calling json() would throw.
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({})
-      } as Response);
+        status: 204,
+        json: async () => {
+          throw new Error('Unexpected end of JSON input');
+        }
+      } as unknown as Response);
 
-      await client.deleteDocument('doc_123');
+      await expect(client.deleteDocument('doc_123')).resolves.toBeUndefined();
 
       expect(mockFetch).toHaveBeenCalledWith(
         'https://api.pdfmonkey.io/api/v1/documents/doc_123',

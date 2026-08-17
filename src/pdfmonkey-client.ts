@@ -160,6 +160,13 @@ export class PDFMonkeyClient {
       }
     });
 
+    // Some endpoints (e.g. DELETE a document) return 204 No Content with an
+    // empty body. Calling response.json() on an empty body throws, so return
+    // early before attempting to parse.
+    if (response.status === 204) {
+      return undefined as T;
+    }
+
     const data = await response.json();
 
     if (!response.ok) {
