@@ -58,10 +58,15 @@ const TOOLS: Tool[] = [
   // Template tools
   {
     name: 'list_templates',
-    description: 'List all PDF templates available in the workspace',
+    description: 'List all PDF templates available in the workspace. Optionally scope the listing to a specific workspace with workspace_id.',
     inputSchema: {
       type: 'object',
-      properties: {},
+      properties: {
+        workspace_id: {
+          type: 'string',
+          description: 'Optional workspace (app) ID to scope the template listing. When omitted, uses the default workspace.'
+        }
+      },
       required: []
     }
   },
@@ -394,7 +399,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       // Template operations
       case 'list_templates': {
-        const templates = await client.listTemplates();
+        const workspaceId = args?.workspace_id as string | undefined;
+        const templates = await client.listTemplates(workspaceId);
         return {
           content: [
             {

@@ -129,6 +129,29 @@ describe('PDFMonkeyClient', () => {
         expect.any(Object)
       );
     });
+
+    it('should scope templates by workspace_id with page=all', async () => {
+      const mockTemplates = [
+        { id: 'tpl_1', name: 'Template 1', identifier: 'test', created_at: '2024-01-01T00:00:00Z' }
+      ];
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ document_template_cards: mockTemplates })
+      } as Response);
+
+      const result = await client.listTemplates('wks_42');
+
+      expect(result).toEqual(mockTemplates);
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining('q%5Bworkspace_id%5D=wks_42'),
+        expect.any(Object)
+      );
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining('page=all'),
+        expect.any(Object)
+      );
+    });
   });
 
   describe('getTemplate', () => {

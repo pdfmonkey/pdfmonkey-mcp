@@ -207,8 +207,17 @@ export class PDFMonkeyClient {
   }
 
   // Template operations
-  async listTemplates(): Promise<TemplateCard[]> {
-    const response = await this.request<{ document_template_cards: TemplateCard[] }>('document_template_cards');
+  async listTemplates(workspaceId?: string): Promise<TemplateCard[]> {
+    let endpoint = 'document_template_cards';
+
+    if (workspaceId) {
+      const queryParams = new URLSearchParams();
+      queryParams.append('page', 'all');
+      queryParams.append('q[workspace_id]', workspaceId);
+      endpoint = `document_template_cards?${queryParams.toString()}`;
+    }
+
+    const response = await this.request<{ document_template_cards: TemplateCard[] }>(endpoint);
     return response.document_template_cards;
   }
 
