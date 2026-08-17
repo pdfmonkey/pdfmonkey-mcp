@@ -129,6 +129,29 @@ describe('PDFMonkeyClient', () => {
         expect.any(Object)
       );
     });
+
+    it('should scope templates by workspace_id with page=all', async () => {
+      const mockTemplates = [
+        { id: 'tpl_1', name: 'Template 1', identifier: 'test', created_at: '2024-01-01T00:00:00Z' }
+      ];
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ document_template_cards: mockTemplates })
+      } as Response);
+
+      const result = await client.listTemplates('wks_42');
+
+      expect(result).toEqual(mockTemplates);
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining('q%5Bworkspace_id%5D=wks_42'),
+        expect.any(Object)
+      );
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining('page=all'),
+        expect.any(Object)
+      );
+    });
   });
 
   describe('getTemplate', () => {
@@ -185,6 +208,31 @@ describe('PDFMonkeyClient', () => {
           body: JSON.stringify({ document: { ...params, status: 'pending' } })
         })
       );
+    });
+
+    it('should include app_id in the document body when provided', async () => {
+      const mockDocument: DocumentCard = {
+        id: 'doc_456',
+        status: 'pending',
+        created_at: '2024-01-01T00:00:00Z'
+      };
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ document: mockDocument })
+      } as Response);
+
+      const params = {
+        document_template_id: 'tpl_123',
+        app_id: 'wks_99',
+        payload: { customer: { name: 'John' } },
+        status: 'pending' as const
+      };
+
+      await client.createDocument(params);
+
+      const body = JSON.parse((mockFetch.mock.calls[0][1] as RequestInit).body as string);
+      expect(body.document.app_id).toBe('wks_99');
     });
   });
 
@@ -258,16 +306,47 @@ describe('PDFMonkeyClient', () => {
         expect.any(Object)
       );
     });
+
+    it('should map updated_since to the Ransack updated_at_gteq predicate', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ document_cards: [] })
+      } as Response);
+
+      await client.listDocuments({ updated_since: '2026-01-01T00:00:00Z' });
+
+      const [calledUrl] = mockFetch.mock.calls[0];
+      expect(calledUrl).toContain('q%5Bupdated_at_gteq%5D=');
+      expect(calledUrl).not.toContain('updated_since');
+    });
+
+    it('should accept pending and generating status filters', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ document_cards: [] })
+      } as Response);
+
+      await client.listDocuments({ status: 'generating' });
+
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining('q%5Bstatus%5D=generating'),
+        expect.any(Object)
+      );
+    });
   });
 
   describe('deleteDocument', () => {
-    it('should delete document successfully', async () => {
+    it('should delete document successfully on 204 No Content (empty body)', async () => {
+      // The real API returns 204 with no body; calling json() would throw.
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({})
-      } as Response);
+        status: 204,
+        json: async () => {
+          throw new Error('Unexpected end of JSON input');
+        }
+      } as unknown as Response);
 
-      await client.deleteDocument('doc_123');
+      await expect(client.deleteDocument('doc_123')).resolves.toBeUndefined();
 
       expect(mockFetch).toHaveBeenCalledWith(
         'https://api.pdfmonkey.io/api/v1/documents/doc_123',

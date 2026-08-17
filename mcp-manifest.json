@@ -3,11 +3,11 @@
   "name": "pdfmonkey-mcp-server",
   "version": "1.0.0",
   "description": "Generate PDFs from templates using PDFMonkey API - manage templates, documents, and snippets",
-  "author": "PDFMonkey MCP Team",
-  "homepage": "https://github.com/your-org/pdfmonkey-mcp-server",
+  "author": "PDFMonkey",
+  "homepage": "https://github.com/pdfmonkey/pdfmonkey-mcp",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/pdfmonkey-mcp-server.git"
+    "url": "https://github.com/pdfmonkey/pdfmonkey-mcp.git"
   },
   "license": "MIT",
   "keywords": [
@@ -23,7 +23,7 @@
   "capabilities": {
     "tools": true,
     "resources": false,
-    "prompts": false
+    "prompts": true
   },
   "tools": [
     {
@@ -33,8 +33,16 @@
     },
     {
       "name": "list_templates",
-      "description": "List all PDF templates available in the workspace",
-      "category": "templates"
+      "description": "List all PDF templates available in the workspace. Optionally scope the listing to a specific workspace with workspace_id.",
+      "category": "templates",
+      "parameters": [
+        {
+          "name": "workspace_id",
+          "type": "string",
+          "required": false,
+          "description": "Optional workspace (app) ID to scope the template listing. When omitted, uses the default workspace."
+        }
+      ]
     },
     {
       "name": "get_template",
@@ -59,6 +67,12 @@
           "type": "string",
           "required": true,
           "description": "The ID of the template to use for generation"
+        },
+        {
+          "name": "workspace_id",
+          "type": "string",
+          "required": false,
+          "description": "Optional workspace (app) ID to generate the document in. When omitted, uses the default workspace."
         },
         {
           "name": "payload",
@@ -114,7 +128,7 @@
           "name": "status",
           "type": "string",
           "required": false,
-          "enum": ["success", "failure", "draft"],
+          "enum": ["draft", "pending", "generating", "success", "failure"],
           "description": "Filter by document status"
         },
         {
@@ -161,6 +175,16 @@
           "description": "The ID of the snippet to retrieve"
         }
       ]
+    },
+    {
+      "name": "get_quota",
+      "description": "Get current quota and plan information for the account",
+      "category": "account"
+    },
+    {
+      "name": "get_user_info",
+      "description": "Get complete user account information including personal details, plan, and settings",
+      "category": "account"
     }
   ],
   "environment": {
@@ -189,8 +213,8 @@
     "docker": "DOCKER-MCP-TOOLKIT.md"
   },
   "support": {
-    "issues": "https://github.com/your-org/pdfmonkey-mcp-server/issues",
-    "email": "support@example.com"
+    "issues": "https://github.com/pdfmonkey/pdfmonkey-mcp/issues",
+    "email": "tinymonkey@pdfmonkey.io"
   },
   "links": {
     "pdfmonkey": "https://pdfmonkey.io",

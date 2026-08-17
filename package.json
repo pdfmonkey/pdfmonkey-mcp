@@ -1,6 +1,7 @@
 {
   "name": "pdfmonkey-mcp-server",
   "version": "1.0.0",
+  "mcpName": "io.github.pdfmonkey/pdfmonkey-mcp",
   "description": "Model Context Protocol (MCP) server for PDFMonkey API - Generate PDFs from templates using AI assistants like Claude",
   "type": "module",
   "main": "dist/index.js",
@@ -14,7 +15,8 @@
     "start": "node dist/index.js",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
-    "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage"
+    "test:coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
+    "prepublishOnly": "npm run build && npm test"
   },
   "keywords": [
     "mcp",
@@ -38,12 +40,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pdfmonkey/pdfmonkey-mcp-server"
+    "url": "https://github.com/pdfmonkey/pdfmonkey-mcp"
   },
   "bugs": {
-    "url": "https://github.com/pdfmonkey/pdfmonkey-mcp-server/issues"
+    "url": "https://github.com/pdfmonkey/pdfmonkey-mcp/issues"
   },
-  "homepage": "https://github.com/pdfmonkey/pdfmonkey-mcp-server#readme",
+  "homepage": "https://github.com/pdfmonkey/pdfmonkey-mcp#readme",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4"

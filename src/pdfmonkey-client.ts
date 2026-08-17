@@ -23,6 +23,7 @@ export interface DocumentMeta {
 
 export interface CreateDocumentParams {
   document_template_id: string;
+  app_id?: string;
   payload: DocumentPayload;
   meta?: DocumentMeta;
   status?: 'draft' | 'pending';
@@ -113,7 +114,7 @@ export interface CurrentUser {
 
 export interface ListDocumentsParams {
   page?: number;
-  status?: 'success' | 'failure' | 'draft';
+  status?: 'draft' | 'pending' | 'generating' | 'success' | 'failure';
   document_template_id?: string;
   updated_since?: string;
 }
@@ -158,6 +159,13 @@ export class PDFMonkeyClient {
         ...options.headers
       }
     });
+
+    // Some endpoints (e.g. DELETE a document) return 204 No Content with an
+    // empty body. Calling response.json() on an empty body throws, so return
+    // early before attempting to parse.
+    if (response.status === 204) {
+      return undefined as T;
+    }
 
     const data = await response.json();
 
@@ -206,8 +214,17 @@ export class PDFMonkeyClient {
   }
 
   // Template operations
-  async listTemplates(): Promise<TemplateCard[]> {
-    const response = await this.request<{ document_template_cards: TemplateCard[] }>('document_template_cards');
+  async listTemplates(workspaceId?: string): Promise<TemplateCard[]> {
+    let endpoint = 'document_template_cards';
+
+    if (workspaceId) {
+      const queryParams = new URLSearchParams();
+      queryParams.append('page', 'all');
+      queryParams.append('q[workspace_id]', workspaceId);
+      endpoint = `document_template_cards?${queryParams.toString()}`;
+    }
+
+    const response = await this.request<{ document_template_cards: TemplateCard[] }>(endpoint);
     return response.document_template_cards;
   }
 
@@ -248,7 +265,7 @@ export class PDFMonkeyClient {
       queryParams.append('q[document_template_id]', params.document_template_id);
     }
     if (params.updated_since) {
-      queryParams.append('q[updated_since]', params.updated_since);
+      queryParams.append('q[updated_at_gteq]', params.updated_since);
     }
 
     const query = queryParams.toString();

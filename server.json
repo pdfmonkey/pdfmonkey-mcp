@@ -1,0 +1,31 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.pdfmonkey/pdfmonkey-mcp",
+  "description": "Generate PDFs from templates using the PDFMonkey API",
+  "title": "PDFMonkey",
+  "websiteUrl": "https://pdfmonkey.io",
+  "repository": {
+    "url": "https://github.com/pdfmonkey/pdfmonkey-mcp",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "pdfmonkey-mcp-server",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "PDFMONKEY_API_KEY",
+          "description": "Your PDFMonkey API key from dashboard.pdfmonkey.io",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
