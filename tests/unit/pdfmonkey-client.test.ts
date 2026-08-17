@@ -258,6 +258,19 @@ describe('PDFMonkeyClient', () => {
         expect.any(Object)
       );
     });
+
+    it('should map updated_since to the Ransack updated_at_gteq predicate', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ document_cards: [] })
+      } as Response);
+
+      await client.listDocuments({ updated_since: '2026-01-01T00:00:00Z' });
+
+      const [calledUrl] = mockFetch.mock.calls[0];
+      expect(calledUrl).toContain('q%5Bupdated_at_gteq%5D=');
+      expect(calledUrl).not.toContain('updated_since');
+    });
   });
 
   describe('deleteDocument', () => {

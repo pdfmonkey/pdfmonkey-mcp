@@ -248,7 +248,7 @@ export class PDFMonkeyClient {
       queryParams.append('q[document_template_id]', params.document_template_id);
     }
     if (params.updated_since) {
-      queryParams.append('q[updated_since]', params.updated_since);
+      queryParams.append('q[updated_at_gteq]', params.updated_since);
     }
 
     const query = queryParams.toString();
