@@ -23,6 +23,7 @@ export interface DocumentMeta {
 
 export interface CreateDocumentParams {
   document_template_id: string;
+  app_id?: string;
   payload: DocumentPayload;
   meta?: DocumentMeta;
   status?: 'draft' | 'pending';

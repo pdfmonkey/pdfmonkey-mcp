@@ -83,13 +83,17 @@ const TOOLS: Tool[] = [
   // Document generation tools
   {
     name: 'generate_document',
-    description: 'Generate a PDF document from a template with provided data. This uses async generation with automatic polling until completion. Returns the download URL when ready.',
+    description: 'Generate a PDF document from a template with provided data. This uses async generation with automatic polling until completion. Returns the download URL when ready. Optionally target a specific workspace with workspace_id.',
     inputSchema: {
       type: 'object',
       properties: {
         template_id: {
           type: 'string',
           description: 'The ID of the template to use for generation'
+        },
+        workspace_id: {
+          type: 'string',
+          description: 'Optional workspace (app) ID to generate the document in. When omitted, uses the default workspace.'
         },
         payload: {
           type: 'object',
@@ -420,6 +424,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       // Document operations
       case 'generate_document': {
         const templateId = args?.template_id as string;
+        const workspaceId = args?.workspace_id as string | undefined;
         const payload = args?.payload as Record<string, unknown>;
         const filename = args?.filename as string | undefined;
         const ttl = args?.ttl as string | undefined;
@@ -439,6 +444,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
         const params: CreateDocumentParams = {
           document_template_id: templateId,
+          app_id: workspaceId,
           payload,
           meta: Object.keys(meta).length > 0 ? meta : undefined,
           status: 'pending'

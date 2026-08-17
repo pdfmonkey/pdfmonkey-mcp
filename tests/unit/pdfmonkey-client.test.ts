@@ -186,6 +186,31 @@ describe('PDFMonkeyClient', () => {
         })
       );
     });
+
+    it('should include app_id in the document body when provided', async () => {
+      const mockDocument: DocumentCard = {
+        id: 'doc_456',
+        status: 'pending',
+        created_at: '2024-01-01T00:00:00Z'
+      };
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ document: mockDocument })
+      } as Response);
+
+      const params = {
+        document_template_id: 'tpl_123',
+        app_id: 'wks_99',
+        payload: { customer: { name: 'John' } },
+        status: 'pending' as const
+      };
+
+      await client.createDocument(params);
+
+      const body = JSON.parse((mockFetch.mock.calls[0][1] as RequestInit).body as string);
+      expect(body.document.app_id).toBe('wks_99');
+    });
   });
 
   describe('getDocumentStatus', () => {
