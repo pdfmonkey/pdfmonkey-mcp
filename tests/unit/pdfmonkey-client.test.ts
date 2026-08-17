@@ -271,6 +271,20 @@ describe('PDFMonkeyClient', () => {
       expect(calledUrl).toContain('q%5Bupdated_at_gteq%5D=');
       expect(calledUrl).not.toContain('updated_since');
     });
+
+    it('should accept pending and generating status filters', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ document_cards: [] })
+      } as Response);
+
+      await client.listDocuments({ status: 'generating' });
+
+      expect(mockFetch).toHaveBeenCalledWith(
+        expect.stringContaining('q%5Bstatus%5D=generating'),
+        expect.any(Object)
+      );
+    });
   });
 
   describe('deleteDocument', () => {

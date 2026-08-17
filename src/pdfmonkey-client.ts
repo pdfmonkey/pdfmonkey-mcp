@@ -113,7 +113,7 @@ export interface CurrentUser {
 
 export interface ListDocumentsParams {
   page?: number;
-  status?: 'success' | 'failure' | 'draft';
+  status?: 'draft' | 'pending' | 'generating' | 'success' | 'failure';
   document_template_id?: string;
   updated_since?: string;
 }

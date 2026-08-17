@@ -139,7 +139,7 @@ const TOOLS: Tool[] = [
         },
         status: {
           type: 'string',
-          enum: ['success', 'failure', 'draft'],
+          enum: ['draft', 'pending', 'generating', 'success', 'failure'],
           description: 'Filter by document status'
         },
         template_id: {
@@ -474,7 +474,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case 'list_documents': {
         const params: ListDocumentsParams = {
           page: args?.page as number | undefined,
-          status: args?.status as 'success' | 'failure' | 'draft' | undefined,
+          status: args?.status as 'draft' | 'pending' | 'generating' | 'success' | 'failure' | undefined,
           document_template_id: args?.template_id as string | undefined,
           updated_since: args?.updated_since as string | undefined
         };
