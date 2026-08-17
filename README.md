@@ -4,7 +4,7 @@ A Model Context Protocol (MCP) server that enables AI assistants like Claude to 
 
 [![Docker](https://img.shields.io/badge/docker-available-blue)](https://hub.docker.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Tests](https://img.shields.io/badge/tests-42%2F42%20passing-success)](package.json)
+[![Tests](https://img.shields.io/badge/tests-80%2F80%20passing-success)](package.json)
 
 ## Features
 
@@ -20,10 +20,7 @@ A Model Context Protocol (MCP) server that enables AI assistants like Claude to 
 ### Option 1: Docker (Recommended)
 
 ```bash
-# Pull from Docker Hub
-docker pull pdfmonkey/pdfmonkey-mcp-server:latest
-
-# Or build locally
+# Build locally (a published Docker Hub image is not available yet)
 docker build -t pdfmonkey-mcp-server:latest .
 ```
 
@@ -186,7 +183,7 @@ npm run test:watch        # Watch mode
 npm run test:coverage     # Coverage report
 ```
 
-Current test coverage: **42/42 tests passing** (92%+ coverage on core files)
+Current test coverage: **80/80 tests passing** (~89% overall statements/lines; `tools.ts` dispatch 100%)
 
 ### Watch Mode
 
@@ -368,8 +365,8 @@ Contributions welcome! Please:
 
 The project has comprehensive test coverage:
 
-- **Unit tests**: 42 tests covering all formatters and API client
-- **Coverage**: 92%+ on core files (formatters.ts, pdfmonkey-client.ts)
+- **Unit tests**: 80 tests covering the formatters, API client, and tool/prompt dispatch
+- **Coverage**: ~89% overall statements/lines (`tools.ts` dispatch at 100%)
 - **Mock testing**: Full fetch API mocking
 - **Async testing**: Polling and timeout scenarios
 
@@ -386,13 +383,16 @@ npm run test:coverage # Coverage report
 ```
 pdfmonkey-mcp-server/
 ├── src/
-│   ├── index.ts              # MCP server implementation
+│   ├── index.ts              # MCP server bootstrap (env, client, stdio)
+│   ├── tools.ts              # Tool/prompt definitions + dispatch
 │   ├── pdfmonkey-client.ts   # PDFMonkey API client
 │   └── formatters.ts         # Output formatters
 ├── tests/
 │   └── unit/
-│       ├── formatters.test.ts      # Formatter tests (21)
-│       └── pdfmonkey-client.test.ts # Client tests (21)
+│       ├── formatters.test.ts        # Formatter tests (21)
+│       ├── pdfmonkey-client.test.ts  # Client tests (25)
+│       └── tools.test.ts             # Tool dispatch tests (34)
+├── server.json               # MCP registry manifest
 ├── Dockerfile                # Multi-stage build
 ├── package.json
 ├── tsconfig.json
