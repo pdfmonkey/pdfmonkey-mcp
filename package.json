@@ -38,12 +38,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pdfmonkey/pdfmonkey-mcp-server"
+    "url": "https://github.com/pdfmonkey/pdfmonkey-mcp"
   },
   "bugs": {
-    "url": "https://github.com/pdfmonkey/pdfmonkey-mcp-server/issues"
+    "url": "https://github.com/pdfmonkey/pdfmonkey-mcp/issues"
   },
-  "homepage": "https://github.com/pdfmonkey/pdfmonkey-mcp-server#readme",
+  "homepage": "https://github.com/pdfmonkey/pdfmonkey-mcp#readme",
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4"
