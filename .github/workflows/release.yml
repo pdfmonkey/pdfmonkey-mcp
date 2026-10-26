@@ -38,8 +38,24 @@ jobs:
         run: npm ci
 
       # prepublishOnly builds and runs the test suite
+      # Skipped when the version is already out, so a failed run can be re-run
       - name: Publish to npm
-        run: npm publish --access public
+        run: |
+          if npm view "pdfmonkey-mcp-server@${GITHUB_REF_NAME#v}" version >/dev/null 2>&1; then
+            echo "Already on npm, skipping"
+          else
+            npm publish --access public
+          fi
+
+      # The MCP Registry checks the version exists on npm, which can take a few minutes
+      - name: Wait for npm
+        run: |
+          for i in $(seq 30); do
+            npm view "pdfmonkey-mcp-server@${GITHUB_REF_NAME#v}" version >/dev/null 2>&1 && exit 0
+            sleep 20
+          done
+          echo "Version not visible on npm after 10 minutes"
+          exit 1
 
       - name: Install mcp-publisher
         run: curl -sL https://github.com/modelcontextprotocol/registry/releases/download/v1.8.5/mcp-publisher_linux_amd64.tar.gz | tar xz mcp-publisher
