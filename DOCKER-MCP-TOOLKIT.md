@@ -560,7 +560,7 @@ docker scout recommendations pdfmonkey-mcp-server:latest
 - [Docker MCP Toolkit Documentation](https://docs.docker.com/ai/mcp-catalog-and-toolkit/)
 - [Docker MCP Gateway](https://github.com/docker/mcp-gateway)
 - [Model Context Protocol Spec](https://modelcontextprotocol.io/)
-- [PDFMonkey API Documentation](https://docs.pdfmonkey.io/)
+- [PDFMonkey API Documentation](https://pdfmonkey.io/docs/)
 
 ---
 
@@ -569,4 +569,4 @@ docker scout recommendations pdfmonkey-mcp-server:latest
 Pour des questions sur :
 - **Le serveur MCP PDFMonkey** : Ouvrir une issue sur GitHub
 - **Docker MCP Toolkit** : [Docker Community Forums](https://forums.docker.com/)
-- **PDFMonkey API** : [PDFMonkey Support](https://pdfmonkey.io/support)
+- **PDFMonkey API** : [PDFMonkey Support](https://pdfmonkey.io/contact/)
