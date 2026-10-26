@@ -189,7 +189,7 @@
   ],
   "environment": {
     "PDFMONKEY_API_KEY": {
-      "description": "Your PDFMonkey API key from dashboard.pdfmonkey.io",
+      "description": "Your PDFMonkey API key from https://dashboard.pdfmonkey.io/account",
       "required": true,
       "secret": true,
       "example": "pk_live_..."
@@ -218,7 +218,7 @@
   },
   "links": {
     "pdfmonkey": "https://pdfmonkey.io",
-    "api_docs": "https://docs.pdfmonkey.io",
+    "api_docs": "https://pdfmonkey.io/docs/",
     "dashboard": "https://dashboard.pdfmonkey.io"
   }
 }
