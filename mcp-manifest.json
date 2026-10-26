@@ -1,7 +1,7 @@
 {
   "$schema": "https://modelcontextprotocol.io/schemas/manifest/v1.0.0",
   "name": "pdfmonkey-mcp-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Generate PDFs from templates using PDFMonkey API - manage templates, documents, and snippets",
   "author": "PDFMonkey",
   "homepage": "https://github.com/pdfmonkey/pdfmonkey-mcp",

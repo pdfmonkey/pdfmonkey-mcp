@@ -1,6 +1,6 @@
 {
   "name": "pdfmonkey-mcp-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "mcpName": "io.github.pdfmonkey/pdfmonkey-mcp",
   "description": "Model Context Protocol (MCP) server for PDFMonkey API - Generate PDFs from templates using AI assistants like Claude",
   "type": "module",

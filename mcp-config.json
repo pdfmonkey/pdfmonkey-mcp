@@ -10,10 +10,10 @@
       "capabilities": ["tools"],
       "metadata": {
         "name": "PDFMonkey MCP Server",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "description": "Generate PDFs from templates using PDFMonkey API",
         "author": "PDFMonkey MCP Team",
-        "homepage": "https://github.com/your-org/pdfmonkey-mcp-server",
+        "homepage": "https://github.com/pdfmonkey/pdfmonkey-mcp",
         "license": "MIT"
       }
     }
